@@ -4,18 +4,16 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>MC Modes UI</title>
+
 <style>
 body {
-  /*TODO ESTA EN CODIGO ESPAGETTI, YA DESPUES LO ARREGLO, ES SOLO UNA IDEA*/
   margin: 0;
   font-family: 'Segoe UI', sans-serif;
   background: linear-gradient(180deg, #0b1220, #0f172a);
   color: white;
 }
 
-.container {
-  padding: 20px;
-}
+.container { padding: 20px; }
 
 .grid {
   display: grid;
@@ -31,9 +29,7 @@ body {
   transition: all 0.25s ease;
 }
 
-.card:hover {
-  transform: translateY(-5px) scale(1.03);
-}
+.card:hover { transform: translateY(-5px) scale(1.03); }
 
 .card img {
   width: 100%;
@@ -42,36 +38,23 @@ body {
   filter: brightness(0.5);
 }
 
-.card::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-}
-
 .card h3 {
   position: absolute;
   bottom: 10px;
   left: 15px;
   margin: 0;
-  font-size: 18px;
-  z-index: 2;
 }
 
-.players {
-  margin-top: 30px;
-}
+.players { margin-top: 30px; }
 
 .player {
   position: relative;
   display: flex;
-  align-items: center;
   justify-content: space-between;
-  gap: 10px;
   background: #1e293b;
   padding: 12px;
   border-radius: 10px;
   margin-bottom: 10px;
-  transition: background 0.2s;
 }
 
 .player-left {
@@ -83,6 +66,7 @@ body {
 .badges {
   display: flex;
   gap: 6px;
+  flex-wrap: wrap;
 }
 
 .badge {
@@ -93,6 +77,20 @@ body {
   font-size: 10px;
 }
 
+.badge img {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: #0f172a;
+  padding: 3px;
+}
+
+.badge span {
+  font-size: 9px;
+  color: #facc15;
+}
+
+/* 🔥 TOOLTIP */
 .badge-tooltip {
   position: absolute;
   bottom: 130%;
@@ -110,30 +108,6 @@ body {
   opacity: 1;
 }
 
-.badge img {
-  width: 22px;
-  height: 22px;
-  border-radius: 50%;
-  background: #0f172a;
-  padding: 3px;
-}
-
-.badge span {
-  margin-top: 2px;
-  font-size: 9px;
-  color: #facc15;
-}
-
-.player:hover {
-  background: #334155;
-}
-
-.player img {
-  width: 40px;
-  height: 40px;
-  border-radius: 6px;
-}
-
 .tooltip {
   position: absolute;
   right: 10px;
@@ -142,16 +116,12 @@ body {
   border-radius: 6px;
   font-size: 12px;
   opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.2s;
 }
 
-.player:hover .tooltip {
-  opacity: 1;
-}
-
+.player:hover .tooltip { opacity: 1; }
 </style>
 </head>
+
 <body>
 
 <div class="container">
@@ -166,8 +136,6 @@ body {
 
 <script>
 
-  // TODO ESTA EN CODIGO ESPAGETTI, YA DESPUES LO ARREGLO, ES SOLO UNA IDEA
-  
 const modes = [
   { name: "Hide and Seek", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTX1bUqAfR8IcEn1bgjWIpcy2JX6Cek4CicDQ&s", url: "modes/hide.html" },
   { name: "SkyWars", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTisOFYUovXkJwWo4ddiEtD_--NUaJN8f2MjQ&s", url: "modes/skywars.html" },
@@ -187,7 +155,14 @@ const modes = [
 
 let players = [];
 
-function addPlayer(name, skinUrl, rank, badges = []) {
+function addPlayer(name, skinUrl, rank, tiers = {}) {
+
+  const badges = modes.map(mode => ({
+    icon: mode.img,
+    tier: tiers[mode.name] || "LT5",
+    modeName: mode.name
+  }));
+
   players.push({ name, skinUrl, rank, badges });
   renderPlayers();
 }
@@ -199,26 +174,26 @@ function renderPlayers() {
   players.forEach(p => {
     const div = document.createElement("div");
     div.className = "player";
+
     div.innerHTML = `
       <div class="player-left">
         <img src="${p.skinUrl}" />
         <span>${p.name}</span>
       </div>
+
       <div class="badges">
-        ${p.badges.map(b => {
-          const modeMatch = modes.find(m => m.img === b.icon);
-          const modeName = modeMatch ? modeMatch.name : (b.name || 'Modo');
-          return `
+        ${p.badges.map(b => `
           <div class="badge">
             <img src="${b.icon}" />
             <span>${b.tier}</span>
-            <div class="badge-tooltip">${modeName}</div>
+            <div class="badge-tooltip">${b.modeName}</div>
           </div>
-        `;
-        }).join("")}
+        `).join("")}
       </div>
+
       <div class="tooltip">${p.rank}</div>
     `;
+
     container.appendChild(div);
   });
 }
@@ -229,6 +204,7 @@ function renderModes() {
   modes.forEach(mode => {
     const div = document.createElement("div");
     div.className = "card";
+
     div.innerHTML = `
       <img src="${mode.img}" />
       <h3>${mode.name}</h3>
@@ -242,25 +218,20 @@ function renderModes() {
   });
 }
 
-addPlayer("IgnChema", "https://mc-heads.net/avatar/IgnChema", "Combat Master (150 pts)", [
-  { icon: modes[0].img, tier: "LT1" },
-  { icon: modes[1].img, tier: "LT1" },
-  { icon: modes[2].img, tier: "LT1" },
-]);
+// ejemplos
+addPlayer("IgnChema", "https://mc-heads.net/avatar/IgnChema", "Combat Master", {
+  "SkyWars": "HT2",
+  "BedWars": "LT1"
+});
 
-addPlayer("zSqmuca", "https://mc-heads.net/avatar/zSqmuca", "Combat Ace (150 pts)", [
-  { icon: modes[3].img, tier: "LT1" },
-  { icon: modes[4].img, tier: "LT1" },
-  { icon: modes[5].img, tier: "LT1" }
-]);
+addPlayer("zSqmuca", "https://mc-heads.net/avatar/zSqmuca", "Combat Ace", {
+  "Block Drop": "HT1"
+});
 
-addPlayer("Laikan0", "https://mc-heads.net/avatar/Laikan0", "Grandmaster (150 pts)", [
-  { icon: modes[6].img, tier: "LT1" },
-  { icon: modes[7].img, tier: "LT1" },
-  { icon: modes[8].img, tier: "LT1" },
-]);
+addPlayer("Laikan0", "https://mc-heads.net/avatar/Laikan0", "Grandmaster");
 
 renderModes();
+
 </script>
 
 </body>
