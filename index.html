@@ -1,181 +1,191 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>MC Modes UI</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MC Modes UI</title>
 
-<style>
-body {
-  margin: 0;
-  font-family: 'Segoe UI', sans-serif;
-  background: linear-gradient(180deg, #0b1220, #0f172a);
-  color: white;
-}
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(180deg, #0b1220, #0f172a);
+      color: white;
+    }
 
-.container { padding: 20px; }
+    .container {
+      padding: 20px;
+    }
 
-.grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-  gap: 15px;
-}
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 15px;
+    }
 
-.card {
-  position: relative;
-  border-radius: 14px;
-  overflow: hidden;
-  cursor: pointer;
-  transition: all 0.25s ease;
-}
+    .card {
+      position: relative;
+      border-radius: 14px;
+      overflow: hidden;
+      cursor: pointer;
+      transition: all 0.25s ease;
+    }
 
-.card:hover { transform: translateY(-5px) scale(1.03); }
+    .card:hover {
+      transform: translateY(-5px) scale(1.03);
+    }
 
-.card img {
-  width: 100%;
-  height: 150px;
-  object-fit: cover;
-  filter: brightness(0.5);
-}
+    .card img {
+      width: 100%;
+      height: 150px;
+      object-fit: cover;
+      filter: brightness(0.5);
+    }
 
-.card h3 {
-  position: absolute;
-  bottom: 10px;
-  left: 15px;
-  margin: 0;
-}
+    .card h3 {
+      position: absolute;
+      bottom: 10px;
+      left: 15px;
+      margin: 0;
+    }
 
-.players { margin-top: 30px; }
+    .players {
+      margin-top: 30px;
+    }
 
-.player {
-  position: relative;
-  display: flex;
-  justify-content: space-between;
-  background: #1e293b;
-  padding: 12px;
-  border-radius: 10px;
-  margin-bottom: 10px;
-}
+    .player {
+      display: flex;
+      align-items: center;
+      background: #1e293b;
+      padding: 6px 10px;
+      border-radius: 10px;
+      margin-bottom: 8px;
+      gap: 10px;
+    }
 
-.player-left {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
+    .player-left {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
 
-.badges {
-  display: flex;
-  gap: 6px;
-  flex-wrap: wrap;
-}
+    .player img {
+      width: 32px;
+      height: 32px;
+      border-radius: 6px;
+    }
 
-.badge {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  font-size: 10px;
-}
+    .badges {
+      display: flex;
+      gap: 4px;
+      flex-wrap: wrap;
+      margin-left: auto;
+      /* 🔥 los empuja a la derecha */
+    }
 
-.badge img {
-  width: 22px;
-  height: 22px;
-  border-radius: 50%;
-  background: #0f172a;
-  padding: 3px;
-}
+    .badge {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      font-size: 10px;
+    }
 
-.badge span {
-  font-size: 9px;
-  color: #facc15;
-}
+    .badge img {
+      width: 18px;
+      height: 18px;
+      padding: 2px;
+    }
 
-/* 🔥 TOOLTIP */
-.badge-tooltip {
-  position: absolute;
-  bottom: 130%;
-  background: #020617;
-  padding: 5px 8px;
-  border-radius: 6px;
-  font-size: 11px;
-  white-space: nowrap;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.2s;
-}
+    .badge span {
+      font-size: 8px;
+      margin-top: 1px;
+    }
 
-.badge:hover .badge-tooltip {
-  opacity: 1;
-}
+    /* tooltip badge */
+    .badge-tooltip {
+      position: absolute;
+      bottom: 130%;
+      background: #020617;
+      padding: 5px 8px;
+      border-radius: 6px;
+      font-size: 11px;
+      white-space: nowrap;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.2s;
+    }
 
-.tooltip {
-  position: absolute;
-  right: 10px;
-  background: #0f172a;
-  padding: 6px 10px;
-  border-radius: 6px;
-  font-size: 12px;
-  opacity: 0;
-}
+    .badge:hover .badge-tooltip {
+      opacity: 1;
+    }
 
-.player:hover .tooltip { opacity: 1; }
-</style>
+    /* rank */
+    .tooltip {
+      font-size: 11px;
+      padding: 4px 8px;
+      background: #0f172a;
+      border-radius: 6px;
+      margin-left: 8px;
+      white-space: nowrap;
+    }
+  </style>
 </head>
 
 <body>
 
-<div class="container">
-  <h1>Modos</h1>
-  <div class="grid" id="modes"></div>
+  <div class="container">
+    <h1>Modos</h1>
+    <div class="grid" id="modes"></div>
 
-  <div class="players">
-    <h2>Jugadores</h2>
-    <div id="players"></div>
+    <div class="players">
+      <h2>Jugadores</h2>
+      <div id="players"></div>
+    </div>
   </div>
-</div>
 
-<script>
+  <script>
 
-const modes = [
-  { name: "Hide and Seek", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTX1bUqAfR8IcEn1bgjWIpcy2JX6Cek4CicDQ&s", url: "modes/hide.html" },
-  { name: "SkyWars", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTisOFYUovXkJwWo4ddiEtD_--NUaJN8f2MjQ&s", url: "modes/skywars.html" },
-  { name: "Murder Mystery", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTEgtTQGxr4yEQ-br6fWnTcIN4iR0iGDO-M_g&s", url: "modes/murder.html" },
-  { name: "DeathRun", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQIj0QMTOAxAOxPFIvcNETULu41e6Lf8bP5sw&s", url: "modes/deathrun.html" },
-  { name: "Build Battle", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS4KTAFzIELl8QIVFXvjr82I5Xe9qlOOnsH7g&s", url: "modes/build.html" },
-  { name: "Survival Games", img: "https://playhive.com/api/og/en/game/sg", url: "modes/survival.html" },
-  { name: "BedWars", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQEGxtcEPu2q_JkMgHp6Vq1Y7IG4c2l6cVStg&s", url: "modes/bedwars.html" },
-  { name: "Capture the Flag", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTSgyW5XSQEOP9tnav3p1IuOT3Ktg1bFKhdgA&s", url: "modes/ctf.html" },
-  { name: "The Bridge", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTx26LdP0h2o1BHfdQQTOXcCbB9oZuSe014qg&s", url: "modes/bridge.html" },
-  { name: "Block Drop", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ3OL2RAyPP3DB3uA3znNRj_I-MLlkoksHHmA&s", url: "modes/blockdrop.html" },
-  { name: "Gravity", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRE6mw53-Fo3ClGeoyvcnnfdVnLArM1nBegWA&s", url: "modes/gravity.html" },
-  { name: "Block Party", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQw86XSofej2Vt7S2IQbmpME4k29WhosCzXIw&s", url: "modes/blockparty.html" },
-  { name: "Ground Wars", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQcg_-Il-pdwud4A9AwgDm50wTGlNgcID9VfA&s", url: "modes/groundwars.html" },
-  { name: "Parkour Worlds", img: "https://playhive.com/content/images/size/w2000/2024/07/PW_poster_contest.png", url: "modes/parkour.html" }
-];
+    const modes = [
+      { name: "BedWars", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQEGxtcEPu2q_JkMgHp6Vq1Y7IG4c2l6cVStg&s", url: "modes/bedwars.html" },
+      { name: "SkyWars", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTisOFYUovXkJwWo4ddiEtD_--NUaJN8f2MjQ&s", url: "modes/skywars.html" },
+      { name: "Capture the Flag", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTSgyW5XSQEOP9tnav3p1IuOT3Ktg1bFKhdgA&s", url: "modes/ctf.html" },
+      { name: "Survival Games", img: "https://playhive.com/api/og/en/game/sg", url: "modes/survival.html" },
+      { name: "The Bridge", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTx26LdP0h2o1BHfdQQTOXcCbB9oZuSe014qg&s", url: "modes/bridge.html" },
+      { name: "Hide and Seek", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTX1bUqAfR8IcEn1bgjWIpcy2JX6Cek4CicDQ&s", url: "modes/hide.html" },
+      { name: "Murder Mystery", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTEgtTQGxr4yEQ-br6fWnTcIN4iR0iGDO-M_g&s", url: "modes/murder.html" },
+      { name: "DeathRun", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQIj0QMTOAxAOxPFIvcNETULu41e6Lf8bP5sw&s", url: "modes/deathrun.html" },
+      { name: "Build Battle", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS4KTAFzIELl8QIVFXvjr82I5Xe9qlOOnsH7g&s", url: "modes/build.html" },
+      { name: "Block Drop", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ3OL2RAyPP3DB3uA3znNRj_I-MLlkoksHHmA&s", url: "modes/blockdrop.html" },
+      { name: "Gravity", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRE6mw53-Fo3ClGeoyvcnnfdVnLArM1nBegWA&s", url: "modes/gravity.html" },
+      { name: "Block Party", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQw86XSofej2Vt7S2IQbmpME4k29WhosCzXIw&s", url: "modes/blockparty.html" },
+      { name: "Ground Wars", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQcg_-Il-pdwud4A9AwgDm50wTGlNgcID9VfA&s", url: "modes/groundwars.html" },
+      { name: "Parkour Worlds", img: "https://playhive.com/content/images/size/w2000/2024/07/PW_poster_contest.png", url: "modes/parkour.html" }
+    ];
 
-let players = [];
+    let players = [];
 
-function addPlayer(name, skinUrl, rank, tiers = {}) {
+    function addPlayer(name, skinUrl, rank, tiers = {}) {
+      const badges = modes.map(mode => ({
+        icon: mode.img,
+        tier: tiers[mode.name] || "LT5",
+        modeName: mode.name
+      }));
 
-  const badges = modes.map(mode => ({
-    icon: mode.img,
-    tier: tiers[mode.name] || "LT5",
-    modeName: mode.name
-  }));
+      players.push({ name, skinUrl, rank, badges });
+      renderPlayers();
+    }
 
-  players.push({ name, skinUrl, rank, badges });
-  renderPlayers();
-}
+    function renderPlayers() {
+      const container = document.getElementById("players");
+      container.innerHTML = "";
 
-function renderPlayers() {
-  const container = document.getElementById("players");
-  container.innerHTML = "";
+      players.forEach(p => {
+        const div = document.createElement("div");
+        div.className = "player";
 
-  players.forEach(p => {
-    const div = document.createElement("div");
-    div.className = "player";
-
-    div.innerHTML = `
+        div.innerHTML = `
       <div class="player-left">
         <img src="${p.skinUrl}" />
         <span>${p.name}</span>
@@ -194,45 +204,306 @@ function renderPlayers() {
       <div class="tooltip">${p.rank}</div>
     `;
 
-    container.appendChild(div);
-  });
-}
+        container.appendChild(div);
+      });
+    }
 
-function renderModes() {
-  const container = document.getElementById("modes");
+    function renderModes() {
+      const container = document.getElementById("modes");
 
-  modes.forEach(mode => {
-    const div = document.createElement("div");
-    div.className = "card";
+      modes.forEach(mode => {
+        const div = document.createElement("div");
+        div.className = "card";
 
-    div.innerHTML = `
+        div.innerHTML = `
       <img src="${mode.img}" />
       <h3>${mode.name}</h3>
     `;
 
-    div.addEventListener("click", () => {
-      window.location.href = mode.url;
+        div.addEventListener("click", () => {
+          window.location.href = mode.url;
+        });
+
+        container.appendChild(div);
+      });
+    }
+
+    addPlayer("IgnChema", "https://mc-heads.net/avatar/IgnChema", "No tested", {
+      "BedWars": "LT5",
+      "SkyWars": "LT5",
+      "Capture the Flag": "LT5",
+      "Survival Games": "LT5",
+      "The Bridge": "LT5",
+      "Hide and Seek": "LT5",
+      "Murder Mystery": "LT5",
+      "DeathRun": "LT5",
+      "Build Battle": "LT5",
+      "Block Drop": "LT5",
+      "Gravity": "LT5",
+      "Block Party": "LT5",
+      "Ground Wars": "LT5",
+      "Parkour Worlds": "LT5"
     });
 
-    container.appendChild(div);
-  });
-}
+    addPlayer("zSqmuca", "https://mc-heads.net/avatar/zSqmuca", "No tested", {
+      "BedWars": "LT5",
+      "SkyWars": "LT5",
+      "Capture the Flag": "LT5",
+      "Survival Games": "LT5",
+      "The Bridge": "LT5",
+      "Hide and Seek": "LT5",
+      "Murder Mystery": "LT5",
+      "DeathRun": "LT5",
+      "Build Battle": "LT5",
+      "Block Drop": "LT5",
+      "Gravity": "LT5",
+      "Block Party": "LT5",
+      "Ground Wars": "LT5",
+      "Parkour Worlds": "LT5"
+    });
 
-// ejemplos
-addPlayer("IgnChema", "https://mc-heads.net/avatar/IgnChema", "Combat Master", {
-  "SkyWars": "HT2",
-  "BedWars": "LT1"
-});
+    addPlayer("Laikan0", "https://mc-heads.net/avatar/Laikan0", "No tested", {
+      "BedWars": "LT5",
+      "SkyWars": "LT5",
+      "Capture the Flag": "LT5",
+      "Survival Games": "LT5",
+      "The Bridge": "LT5",
+      "Hide and Seek": "LT5",
+      "Murder Mystery": "LT5",
+      "DeathRun": "LT5",
+      "Build Battle": "LT5",
+      "Block Drop": "LT5",
+      "Gravity": "LT5",
+      "Block Party": "LT5",
+      "Ground Wars": "LT5",
+      "Parkour Worlds": "LT5"
+    });
 
-addPlayer("zSqmuca", "https://mc-heads.net/avatar/zSqmuca", "Combat Ace", {
-  "Block Drop": "HT1"
-});
+    addPlayer("Fanny999852", "https://mc-heads.net/avatar/Fanny999852", "No tested", {
+      "BedWars": "LT5",
+      "SkyWars": "LT5",
+      "Capture the Flag": "LT5",
+      "Survival Games": "LT5",
+      "The Bridge": "LT5",
+      "Hide and Seek": "LT5",
+      "Murder Mystery": "LT5",
+      "DeathRun": "LT5",
+      "Build Battle": "LT5",
+      "Block Drop": "LT5",
+      "Gravity": "LT5",
+      "Block Party": "LT5",
+      "Ground Wars": "LT5",
+      "Parkour Worlds": "LT5"
+    });
+    
+    addPlayer("Amairani5657", "https://mc-heads.net/avatar/Amairani5657", "No tested", {
+      "BedWars": "LT5",
+      "SkyWars": "LT5",
+      "Capture the Flag": "LT5",
+      "Survival Games": "LT5",
+      "The Bridge": "LT5",
+      "Hide and Seek": "LT5",
+      "Murder Mystery": "LT5",
+      "DeathRun": "LT5",
+      "Build Battle": "LT5",
+      "Block Drop": "LT5",
+      "Gravity": "LT5",
+      "Block Party": "LT5",
+      "Ground Wars": "LT5",
+      "Parkour Worlds": "LT5"
+    });
 
-addPlayer("Laikan0", "https://mc-heads.net/avatar/Laikan0", "Grandmaster");
+    addPlayer("Pandamania1214", "https://mc-heads.net/avatar/Pandamania1214", "No tested", {
+      "BedWars": "LT5",
+      "SkyWars": "LT5",
+      "Capture the Flag": "LT5",
+      "Survival Games": "LT5",
+      "The Bridge": "LT5",
+      "Hide and Seek": "LT5",
+      "Murder Mystery": "LT5",
+      "DeathRun": "LT5",
+      "Build Battle": "LT5",
+      "Block Drop": "LT5",
+      "Gravity": "LT5",
+      "Block Party": "LT5",
+      "Ground Wars": "LT5",
+      "Parkour Worlds": "LT5"
+    });
 
-renderModes();
+    addPlayer("Neo", "https://mc-heads.net/avatar/Neo", "No tested", {
+      "BedWars": "LT5",
+      "SkyWars": "LT5",
+      "Capture the Flag": "LT5",
+      "Survival Games": "LT5",
+      "The Bridge": "LT5",
+      "Hide and Seek": "LT5",
+      "Murder Mystery": "LT5",
+      "DeathRun": "LT5",
+      "Build Battle": "LT5",
+      "Block Drop": "LT5",
+      "Gravity": "LT5",
+      "Block Party": "LT5",
+      "Ground Wars": "LT5",
+      "Parkour Worlds": "LT5"
+    });
 
-</script>
+    addPlayer("Sovie", "https://mc-heads.net/avatar/Sovie", "No tested", {
+      "BedWars": "LT5",
+      "SkyWars": "LT5",
+      "Capture the Flag": "LT5",
+      "Survival Games": "LT5",
+      "The Bridge": "LT5",
+      "Hide and Seek": "LT5",
+      "Murder Mystery": "LT5",
+      "DeathRun": "LT5",
+      "Build Battle": "LT5",
+      "Block Drop": "LT5",
+      "Gravity": "LT5",
+      "Block Party": "LT5",
+      "Ground Wars": "LT5",
+      "Parkour Worlds": "LT5"
+    });
+
+    addPlayer("Pollito", "https://mc-heads.net/avatar/Pollito", "No tested", {
+      "BedWars": "LT5",
+      "SkyWars": "LT5",
+      "Capture the Flag": "LT5",
+      "Survival Games": "LT5",
+      "The Bridge": "LT5",
+      "Hide and Seek": "LT5",
+      "Murder Mystery": "LT5",
+      "DeathRun": "LT5",
+      "Build Battle": "LT5",
+      "Block Drop": "LT5",
+      "Gravity": "LT5",
+      "Block Party": "LT5",
+      "Ground Wars": "LT5",
+      "Parkour Worlds": "LT5"
+    });
+
+    addPlayer("Darth", "https://mc-heads.net/avatar/Darth", "No tested", {
+      "BedWars": "LT5",
+      "SkyWars": "LT5",
+      "Capture the Flag": "LT5",
+      "Survival Games": "LT5",
+      "The Bridge": "LT5",
+      "Hide and Seek": "LT5",
+      "Murder Mystery": "LT5",
+      "DeathRun": "LT5",
+      "Build Battle": "LT5",
+      "Block Drop": "LT5",
+      "Gravity": "LT5",
+      "Block Party": "LT5",
+      "Ground Wars": "LT5",
+      "Parkour Worlds": "LT5"
+    });
+
+    addPlayer("MrSombraSk", "https://mc-heads.net/avatar/MrSombraSk", "No tested", {
+      "BedWars": "LT5",
+      "SkyWars": "LT5",
+      "Capture the Flag": "LT5",
+      "Survival Games": "LT5",
+      "The Bridge": "LT5",
+      "Hide and Seek": "LT5",
+      "Murder Mystery": "LT5",
+      "DeathRun": "LT5",
+      "Build Battle": "LT5",
+      "Block Drop": "LT5",
+      "Gravity": "LT5",
+      "Block Party": "LT5",
+      "Ground Wars": "LT5",
+      "Parkour Worlds": "LT5"
+    });
+
+    addPlayer("Hanna", "https://mc-heads.net/avatar/Hanna", "No tested", {
+      "BedWars": "LT5",
+      "SkyWars": "LT5",
+      "Capture the Flag": "LT5",
+      "Survival Games": "LT5",
+      "The Bridge": "LT5",
+      "Hide and Seek": "LT5",
+      "Murder Mystery": "LT5",
+      "DeathRun": "LT5",
+      "Build Battle": "LT5",
+      "Block Drop": "LT5",
+      "Gravity": "LT5",
+      "Block Party": "LT5",
+      "Ground Wars": "LT5",
+      "Parkour Worlds": "LT5"
+    });
+
+    addPlayer("Yxkiiu", "https://mc-heads.net/avatar/Yxkiiu", "No tested", {
+      "BedWars": "LT5",
+      "SkyWars": "LT5",
+      "Capture the Flag": "LT5",
+      "Survival Games": "LT5",
+      "The Bridge": "LT5",
+      "Hide and Seek": "LT5",
+      "Murder Mystery": "LT5",
+      "DeathRun": "LT5",
+      "Build Battle": "LT5",
+      "Block Drop": "LT5",
+      "Gravity": "LT5",
+      "Block Party": "LT5",
+      "Ground Wars": "LT5",
+      "Parkour Worlds": "LT5"
+    });
+
+    addPlayer("Jhanderp18", "https://mc-heads.net/avatar/Jhanderp18", "No tested", {
+      "BedWars": "LT5",
+      "SkyWars": "LT5",
+      "Capture the Flag": "LT5",
+      "Survival Games": "LT5",
+      "The Bridge": "LT5",
+      "Hide and Seek": "LT5",
+      "Murder Mystery": "LT5",
+      "DeathRun": "LT5",
+      "Build Battle": "LT5",
+      "Block Drop": "LT5",
+      "Gravity": "LT5",
+      "Block Party": "LT5",
+      "Ground Wars": "LT5",
+      "Parkour Worlds": "LT5"
+    });
+
+    addPlayer("JeshuaRL", "https://mc-heads.net/avatar/JeshuaRL", "No tested", {
+      "BedWars": "LT5",
+      "SkyWars": "LT5",
+      "Capture the Flag": "LT5",
+      "Survival Games": "LT5",
+      "The Bridge": "LT5",
+      "Hide and Seek": "LT5",
+      "Murder Mystery": "LT5",
+      "DeathRun": "LT5",
+      "Build Battle": "LT5",
+      "Block Drop": "LT5",
+      "Gravity": "LT5",
+      "Block Party": "LT5",
+      "Ground Wars": "LT5",
+      "Parkour Worlds": "LT5"
+    });
+
+    addPlayer("Santiago", "https://mc-heads.net/avatar/Santiago", "No tested", {
+      "BedWars": "LT5",
+      "SkyWars": "LT5",
+      "Capture the Flag": "LT5",
+      "Survival Games": "LT5",
+      "The Bridge": "LT5",
+      "Hide and Seek": "LT5",
+      "Murder Mystery": "LT5",
+      "DeathRun": "LT5",
+      "Build Battle": "LT5",
+      "Block Drop": "LT5",
+      "Gravity": "LT5",
+      "Block Party": "LT5",
+      "Ground Wars": "LT5",
+      "Parkour Worlds": "LT5"
+    });
+
+    renderModes();
+
+  </script>
 
 </body>
+
 </html>
